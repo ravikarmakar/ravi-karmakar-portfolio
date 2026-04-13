@@ -14,20 +14,28 @@ import { GraduationCapIcon, CodeIcon } from "lucide-react";
 
 const education = [
   {
-    degree: "Bachelor of Science in Physics",
-    institution: "University Program",
-    period: "2020 — 2023",
+    degree: "Master of Computer Applications (MCA)",
+    institution: "Brindavan College, Bangalore",
+    period: "2025 — Present",
     description:
-      "Built a strong analytical foundation in mathematical modeling, computational physics, and scientific problem-solving that translates directly into software architecture and system design thinking.",
+      "Pursuing postgraduate studies focusing on advanced software engineering, application architecture, and modern scalable system design.",
     icon: GraduationCapIcon,
   },
   {
-    degree: "Advanced Full-Stack Specialization & System Design",
-    institution: "Brindavan Group of Institutes",
-    period: "2024 — Present",
+    degree: "Full Stack Development Certification",
+    institution: "Apna College, Remote",
+    period: "6 Months Program — 2024",
     description:
-      "Deep-diving into distributed systems, microservices architecture, real-time data pipelines, and advanced frontend engineering with Next.js, TypeScript, and cloud-native tooling.",
+      "Completed a rigorous 6-month specialized curriculum covering modern web development, backend API creation, database management, and responsive UI frameworks.",
     icon: CodeIcon,
+  },
+  {
+    degree: "Bachelor of Science in Physics",
+    institution: "B.S.K College, Barharwa",
+    period: "2020 — 2023",
+    description:
+      "Built a strong analytical foundation in mathematical modeling, computational physics, and scientific problem-solving that translates directly into software engineering logic.",
+    icon: GraduationCapIcon,
   },
 ];
 

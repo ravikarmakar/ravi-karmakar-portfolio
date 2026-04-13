@@ -3,7 +3,7 @@
 A high-performance, OLED-optimized developer portfolio built to showcase production-grade systems, aesthetic design, and premium web experiences.
 
 ### 🚀 Live Demo
-**https://devportfolio-mu-five.vercel.app/**
+**https://ravi-karmakar-portfolio.vercel.app/**
 
 ---
 

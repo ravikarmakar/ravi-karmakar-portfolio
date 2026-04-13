@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { Highlighter } from "@/components/ui/highlighter";
+import { Marquee } from "@/components/ui/marquee";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const stats = [
   { label: "Years Experience", value: "3+" },
@@ -34,23 +37,24 @@ export function AboutSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="relative grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start pt-8"
+          className="relative grid grid-cols-1 gap-12 md:grid-cols-12 md:items-center pt-8"
         >
           {/* Image Column */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative mx-auto w-full max-w-sm md:max-w-none"
+            className="relative mx-auto w-full max-w-sm md:col-span-5 md:max-w-md lg:max-w-sm"
           >
             {/* Glow behind image */}
             <div className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-[var(--glow-cyan)]/[0.15] via-[var(--glow-violet)]/[0.1] to-[var(--glow-emerald)]/[0.08] blur-3xl opacity-60" />
 
             {/* Simple image container */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-              {/* Replace this image with your own photo */}
               <PixelImage
                 src="/ravi-photo.png"
+                fallbackSrc="https://github.com/ravikarmakar.png"
+                alt="Ravi Karmakar — Full-Stack Developer & System Architect"
                 grid="6x4"
               />
 
@@ -59,12 +63,16 @@ export function AboutSection() {
 
               {/* Floating decorative badge */}
               <div className="absolute bottom-4 left-4 right-4">
-                <div className="rounded-xl border border-white/10 bg-black/60 px-4 py-3 backdrop-blur-md">
-                  <p className="text-xs font-medium text-[var(--glow-cyan)]">
+                <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-black/60 px-4 py-3 backdrop-blur-md transition-all duration-300 hover:bg-black/80">
+                  <BorderBeam
+                    size={60}
+                    duration={8}
+                    borderWidth={1.5}
+                    colorFrom="var(--glow-cyan)"
+                    colorTo="var(--glow-violet)"
+                  />
+                  <p className="text-xs font-semibold tracking-tight text-[var(--glow-cyan)]">
                     Full-Stack Developer & System Architect
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-white/50">
-                    Building under Krmsolutions
                   </p>
                 </div>
               </div>
@@ -76,29 +84,56 @@ export function AboutSection() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="space-y-6"
+            className="space-y-6 md:col-span-7"
           >
             <div className="space-y-4">
               <p className="text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
                 I&apos;m{" "}
                 <span className="font-semibold text-white">Ravi Karmakar</span>, a
                 full-stack developer with a deep focus on building{" "}
-                <span className="text-[var(--glow-cyan)]">high-concurrency systems</span>{" "}
+                <Highlighter action="highlight" color="#00f0ff" isView={true}>
+                  <span className="font-semibold text-white">high-concurrency systems</span>
+                </Highlighter>{" "}
                 and{" "}
-                <span className="text-[var(--glow-violet)]">premium web experiences</span>.
+                <Highlighter action="underline" color="#9c40ff" isView={true}>
+                  <span className="font-semibold text-white">premium web experiences</span>
+                </Highlighter>.
               </p>
               <p className="text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
                 From real-time communication engines to enterprise platforms, I architect
                 solutions that combine performance, scalability, and design excellence. My
-                work under{" "}
-                <span className="font-medium text-white">Krmsolutions</span>{" "}
-                pushes the boundaries of modern web development.
+                projects push the boundaries of modern web development.
               </p>
               <p className="text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
                 When I&apos;m not coding, I&apos;m exploring cutting-edge technologies, open-source
                 contributions, and the ever-evolving landscape of system architecture.
               </p>
             </div>
+
+            {/* Top Skills Marquee */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="pt-4"
+            >
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Core Tech Stack</p>
+              <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl py-4">
+                <Marquee pauseOnHover className="[--duration:25s]">
+                  {["Next.js", "TypeScript", "Node.js", "WebSockets", "PostgreSQL", "React", "Docker"].map((skill) => (
+                    <div
+                      key={skill}
+                      className="mx-3 flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm font-medium text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </Marquee>
+                {/* Edge Fades for Marquee */}
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black to-transparent"></div>
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black to-transparent"></div>
+              </div>
+            </motion.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 pt-2">
@@ -109,7 +144,7 @@ export function AboutSection() {
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{
                     duration: 0.5,
-                    delay: 0.5 + index * 0.1,
+                    delay: 0.7 + index * 0.1,
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                   className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 backdrop-blur-sm"
@@ -121,6 +156,7 @@ export function AboutSection() {
                 </motion.div>
               ))}
             </div>
+
           </motion.div>
         </motion.div>
       </div>

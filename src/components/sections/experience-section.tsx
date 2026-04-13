@@ -5,7 +5,17 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 
-const experiences = [
+type Experience = {
+  role: string;
+  company: string;
+  duration: string;
+  period: string;
+  description: string;
+  tags: string[];
+  side: "left" | "right";
+};
+
+const experiences: Experience[] = [
   {
     role: "Full-Stack Developer Intern",
     company: "TechFlow Systems",
@@ -16,16 +26,7 @@ const experiences = [
     tags: ["Next.js", "Socket.io", "TypeScript", "Redis", "Performance"],
     side: "left" as const,
   },
-  {
-    role: "Freelance Lead",
-    company: "Krmsolutions",
-    duration: "Ongoing",
-    period: "2024 — Present",
-    description:
-      "Delivering end-to-end web builds for architectural firms and e-commerce clients. Architected scalable solutions with optimized database indexing, custom CMS integrations, and high-end motion design that elevated client conversion rates by 60%.",
-    tags: ["React", "Node.js", "PostgreSQL", "GSAP", "System Design"],
-    side: "right" as const,
-  },
+
 ];
 
 function TimelineItem({

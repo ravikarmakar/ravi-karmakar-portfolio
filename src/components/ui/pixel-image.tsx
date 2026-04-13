@@ -22,6 +22,7 @@ type PredefinedGridKey = keyof typeof DEFAULT_GRIDS
 
 interface PixelImageProps {
   src: string
+  fallbackSrc?: string
   grid?: PredefinedGridKey
   customGrid?: Grid
   grayscaleAnimation?: boolean
@@ -29,6 +30,8 @@ interface PixelImageProps {
   maxAnimationDelay?: number // in ms
   colorRevealDelay?: number // in ms
   className?: string
+  alt?: string
+  title?: string
 }
 
 export const PixelImage = ({
@@ -40,9 +43,15 @@ export const PixelImage = ({
   colorRevealDelay = 1300,
   customGrid,
   className,
+  fallbackSrc,
+  alt = "Pixel effect image piece",
+  title,
 }: PixelImageProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [showColor, setShowColor] = useState(false)
+  const [imgError, setImgError] = useState(false)
+
+  const currentSrc = imgError && fallbackSrc ? fallbackSrc : src
 
   const MIN_GRID = 1
   const MAX_GRID = 16
@@ -89,7 +98,9 @@ export const PixelImage = ({
         ${col * (100 / cols)}% ${(row + 1) * (100 / rows)}%
       )`
 
-      const delay = Math.random() * maxAnimationDelay
+      // Use deterministic pseudo-random number to prevent hydration mismatch between server and client
+      const randomValue = Math.abs(Math.sin(index * 12.9898) * 43758.5453) % 1
+      const delay = randomValue * maxAnimationDelay
       return {
         clipPath,
         delay,
@@ -113,8 +124,10 @@ export const PixelImage = ({
           }}
         >
           <img
-            src={src}
-            alt={`Pixel image piece ${index + 1}`}
+            src={currentSrc}
+            onError={() => setImgError(true)}
+            alt={alt}
+            title={title}
             className={cn(
               "z-1 h-full w-full object-cover rounded-2xl",
               grayscaleAnimation && (showColor ? "grayscale-0" : "grayscale")

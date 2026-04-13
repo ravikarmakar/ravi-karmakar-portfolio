@@ -20,7 +20,7 @@ const projects = [
       "High-concurrency tournament engine handling 50k+ concurrent users with real-time bracket updates, live scoring, and automated matchmaking.",
     href: "#",
     cta: "View Project",
-    className: "col-span-3 md:col-span-2",
+    className: "md:col-span-2 md:row-span-2",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--glow-cyan)]/[0.07] via-transparent to-[var(--glow-violet)]/[0.05]" />
     ),
@@ -32,7 +32,7 @@ const projects = [
       "Real-time emotion detection and interactive UI using face-api.js with dynamic emotional feedback loops.",
     href: "#",
     cta: "View Project",
-    className: "col-span-3 md:col-span-1",
+    className: "md:col-span-1 md:row-span-1",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--glow-violet)]/[0.07] via-transparent to-[var(--glow-emerald)]/[0.05]" />
     ),
@@ -44,7 +44,7 @@ const projects = [
       "Full-scale marketplace with optimized database indexing, Stripe payment flows, and a Shadcn UI admin dashboard.",
     href: "#",
     cta: "View Project",
-    className: "col-span-3 md:col-span-1",
+    className: "md:col-span-1 md:row-span-1",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--glow-emerald)]/[0.07] via-transparent to-[var(--glow-cyan)]/[0.05]" />
     ),
@@ -56,7 +56,7 @@ const projects = [
       "Professional architectural portfolio with high-end GSAP-powered motion design and immersive 3D scroll sequences.",
     href: "#",
     cta: "View Project",
-    className: "col-span-3 md:col-span-2",
+    className: "md:col-span-1 md:row-span-1",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.05] via-transparent to-[var(--glow-violet)]/[0.05]" />
     ),
@@ -68,7 +68,7 @@ const projects = [
       "Low-latency communication system built with Socket.io and Redis pub/sub, supporting 100k+ concurrent connections with message persistence.",
     href: "#",
     cta: "View Project",
-    className: "col-span-3",
+    className: "md:col-span-2 md:row-span-1",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--glow-cyan)]/[0.05] via-transparent to-[var(--glow-emerald)]/[0.07]" />
     ),
@@ -99,7 +99,7 @@ export function ProjectsSection() {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="relative"
         >
-          <BentoGrid className="auto-rows-[18rem] grid-cols-3">
+          <BentoGrid className="lg:auto-rows-[16rem] md:auto-rows-[14rem] auto-rows-[20rem] grid-cols-1 md:grid-cols-3 max-w-full">
             {projects.map((project) => (
               <BentoCard key={project.name} {...project} />
             ))}
