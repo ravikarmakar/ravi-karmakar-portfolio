@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Preloader } from "@/components/ui/preloader";
 import { Navbar } from "@/components/navbar";
-import { SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS, CERTIFICATIONS, getGoogleDriveDirectLink } from "@/lib/constants";
 
 const LoadingContext = createContext({ isLoading: true });
 
@@ -34,8 +34,15 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
         This prevents 'preloaded but not used' warnings during the 2.2s animation.
       */}
       <div className="sr-only opacity-0 pointer-events-none absolute h-0 w-0 overflow-hidden" aria-hidden="true">
+        {/* Warmup primary images to satisfy preloads */}
         <img src={SOCIAL_LINKS.avatar} alt="" />
-        <span className="font-sans">Warmup Sans</span>
+        {CERTIFICATIONS.map(cert => (
+          <img key={cert.id} src={getGoogleDriveDirectLink(cert.image || "")} alt="" />
+        ))}
+        
+        {/* Warmup fonts to satisfy font-preloads */}
+        <span className="font-sans" style={{ fontWeight: 400 }}>Warmup Sans 400</span>
+        <span className="font-sans" style={{ fontWeight: 700 }}>Warmup Sans 700</span>
         <span className="font-mono">Warmup Mono</span>
       </div>
 

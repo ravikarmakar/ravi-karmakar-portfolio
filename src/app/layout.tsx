@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LoadingProvider } from "@/components/loading-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
+import { Footer } from "@/components/footer";
 import { SOCIAL_LINKS, SITE_CONFIG } from "@/lib/constants";
 
 const geistSans = Geist({
@@ -100,6 +101,7 @@ export default function RootLayout({
         <SmoothScroll>
           <LoadingProvider>
             {children}
+            <Footer />
           </LoadingProvider>
         </SmoothScroll>
         {/* Noise texture overlay */}

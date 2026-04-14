@@ -20,10 +20,23 @@ A high-performance, OLED-optimized developer portfolio built to showcase product
 
 ## ✨ Key Features
 
-- **OLED-Optimized Dark Theme:** High contrast, visually striking interface with custom glow palettes (Cyan, Violet, Emerald) designed for modern displays.
-- **Immersive Micro-interactions:** Fluid components with sophisticated scroll reveals, pixel fragmentation effects, and hardware-accelerated animations.
-- **Performance First:** Engineered for optimal Server-Side Rendering (SSR) and Edge delivery.
-- **Responsive Architecture:** Pixel-perfect scaling and graceful degradation from mobile to 4K ultra-wides.
+- **OLED-Optimized Dark Theme:** High contrast, visually striking interface with custom glow palettes designed for modern displays.
+- **Data-Driven Architecture:** Entire portfolio content is centralized in `src/lib/constants.ts`, allowing for near "no-code" content updates.
+- **Automated Communication:** Integrated Brevo SMTP API for professional, multi-stage interactive contact handling.
+- **Cinematic Experience:** Sophisticated scroll reveals, Bento Grids, and Movie Reel galleries with shared element transitions (`layoutId`).
+- **Performance Optimized:** Memoized component architecture and specialized asset warmup sequences to ensure butter-smooth 120FPS rendering.
+
+---
+
+## ⚙️ Deployment & Environment
+
+To deploy this portfolio, you must configure the following environment variables. A template is provided in `.env.example`.
+
+### Required Variables:
+- `BREVO_API_KEY`: Your Brevo SMTP API key.
+- `NEXT_PUBLIC_RECIPIENT_EMAIL`: The email that will receive messages.
+- `SENDER_EMAIL`: The email used by Brevo to send notifications.
+- `SENDER_NAME`: The display name for outgoing emails.
 
 ---
 
@@ -53,10 +66,10 @@ A high-performance, OLED-optimized developer portfolio built to showcase product
 
 ## 📬 Connect
 
-- **LinkedIn:** https://www.linkedin.com/in/ravikarmakar/
-- **GitHub:** https://github.com/ravikarmakar
-- **Twitter / X:** https://x.com/ravi_karmakar4
-- **Email:** ravikarmkar94475@gmail.com
+- **LinkedIn:** [linkedin.com/in/ravikarmakar](https://www.linkedin.com/in/ravikarmakar/)
+- **GitHub:** [github.com/ravikarmakar](https://github.com/ravikarmakar)
+- **Twitter / X:** [x.com/ravi_karmakar4](https://x.com/ravi_karmakar4)
+- **Email:** [ravikarmkar94475@gmail.com](mailto:ravikarmkar94475@gmail.com)
 
 <br/>
 
