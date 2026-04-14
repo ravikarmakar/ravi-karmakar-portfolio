@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useRef, type ReactNode, type MouseEvent } from "react";
+import { useRef, memo, type ReactNode, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
 interface MagneticButtonProps {
@@ -12,7 +12,7 @@ interface MagneticButtonProps {
   href?: string;
 }
 
-export function MagneticButton({
+export const MagneticButton = memo(function MagneticButton({
   children,
   className,
   strength = 0.3,
@@ -67,4 +67,4 @@ export function MagneticButton({
       </Tag>
     </motion.div>
   );
-}
+});

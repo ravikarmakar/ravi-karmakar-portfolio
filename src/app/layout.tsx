@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/ravi-photo.png",
+        url: SOCIAL_LINKS.avatar,
         width: 1200,
         height: 630,
         alt: "Ravi Karmakar Portfolio",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ravi Karmakar — Full-Stack Developer & System Architect",
     description: "Building high-concurrency digital infrastructure.",
-    images: ["/ravi-photo.png"],
+    images: [SOCIAL_LINKS.avatar],
   },
 };
 

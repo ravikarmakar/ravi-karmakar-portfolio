@@ -5,35 +5,13 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 
-type Experience = {
-  role: string;
-  company: string;
-  duration: string;
-  period: string;
-  description: string;
-  tags: string[];
-  side: "left" | "right";
-};
-
-const experiences: Experience[] = [
-  {
-    role: "Full-Stack Developer Intern",
-    company: "TechFlow Systems",
-    duration: "6 Months",
-    period: "2025 — 2026",
-    description:
-      "Optimized Next.js performance pipelines and integrated real-time Socket.io features for collaboration tools serving 10k+ daily active users. Reduced SSR load times by 40% through strategic code-splitting and edge caching.",
-    tags: ["Next.js", "Socket.io", "TypeScript", "Redis", "Performance"],
-    side: "left" as const,
-  },
-
-];
+import { EXPERIENCES, PREMIUM_TRANSITION } from "@/lib/constants";
 
 function TimelineItem({
   experience,
   index,
 }: {
-  experience: (typeof experiences)[0];
+  experience: (typeof EXPERIENCES)[number];
   index: number;
 }) {
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
@@ -56,9 +34,8 @@ function TimelineItem({
             }
       }
       transition={{
-        duration: 0.7,
+        ...PREMIUM_TRANSITION,
         delay: index * 0.15,
-        ease: [0.25, 0.46, 0.45, 0.94],
       }}
       className={`relative flex w-full ${
         experience.side === "right" ? "md:justify-end" : "md:justify-start"
@@ -124,7 +101,7 @@ export function ExperienceSection() {
           </div>
 
           <div className="flex flex-col gap-12">
-            {experiences.map((exp, i) => (
+            {EXPERIENCES.map((exp, i) => (
               <TimelineItem key={exp.company} experience={exp} index={i} />
             ))}
           </div>

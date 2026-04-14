@@ -1,21 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { CoolMode } from "@/components/ui/cool-mode";
 import { SOCIAL_LINKS } from "@/lib/constants";
-
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Certifications", href: "#certifications" },
-  { label: "Skills", href: "#skills" },
-  { label: "Education", href: "#education" },
-];
 
 export function Navbar() {
   const [hidden, setHidden] = useState(false);
@@ -25,14 +16,23 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState<string>("#about");
   const [mounted, setMounted] = useState(false);
 
+  const navLinks = useMemo(() => [
+    { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+    { label: "Projects", href: "#projects" },
+    { label: "Certifications", href: "#certifications" },
+    { label: "Skills", href: "#skills" },
+    { label: "Education", href: "#education" },
+  ], []);
+
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
+  const activeSectionRef = useRef("#about");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = lastScrollY.current;
 
     // 1. Handle Overscroll (Safari/iOS rubber-banding)
-    // If we're scrolling into negative territory, ensure navbar is shown and skip delta logic
     if (latest < 0) {
       if (hidden) setHidden(false);
       lastScrollY.current = 0;
@@ -40,20 +40,15 @@ export function Navbar() {
     }
 
     // 2. Delta-based Hysteresis Logic
-    // We only change visibility if the scroll distance exceeds a threshold (10px)
-    // to prevent "flickering" from micro-movements on touchpads/mobile.
     const delta = latest - previous;
     const threshold = 10;
 
     if (latest <= 50) {
-      // Force visible at the very top
       if (hidden) setHidden(false);
     } else if (Math.abs(delta) > threshold) {
       if (delta > 0 && latest > 150) {
-        // Scrolling Down - Hide
         if (!hidden) setHidden(true);
       } else if (delta < 0) {
-        // Scrolling Up - Show
         if (hidden) setHidden(false);
       }
     }
@@ -78,14 +73,18 @@ export function Navbar() {
 
     const observerOptions = {
       root: null,
-      rootMargin: "-40% 0px -50% 0px", // Focus on the middle of the screen
+      rootMargin: "-40% 0px -50% 0px",
       threshold: 0,
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActiveSection(`#${entry.target.id}`);
+          const id = `#${entry.target.id}`;
+          if (activeSectionRef.current !== id) {
+             activeSectionRef.current = id;
+             setActiveSection(id);
+          }
         }
       });
     };
@@ -93,7 +92,7 @@ export function Navbar() {
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     // Target all sections that have nav links
-    const sectionIds = ["about", "experience", "education", "projects", "skills", "contact", "certifications"];
+    const sectionIds = ["about", "experience", "education", "projects", "skills", "certifications", "contact"];
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -102,11 +101,11 @@ export function Navbar() {
     return () => observer.disconnect();
   }, [mounted]);
 
-  const scrollTo = (href: string) => {
+  const scrollTo = useCallback((href: string) => {
     setMobileOpen(false);
     const el = document.querySelector(href);
     el?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   return (
     <>
@@ -126,7 +125,7 @@ export function Navbar() {
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Branding / Avatar */}
-          <CoolMode options={{ particle: "/ravi-photo.png" }}>
+          <CoolMode options={{ particle: SOCIAL_LINKS.avatar }}>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="group relative flex items-center justify-center cursor-pointer"
@@ -134,7 +133,7 @@ export function Navbar() {
               <div className="absolute inset-0 rounded-full bg-[var(--glow-cyan)] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40" />
               <div className="relative h-10 w-10 overflow-hidden rounded-full border border-white/10 transition-transform duration-300 group-hover:scale-105 group-hover:border-[var(--glow-cyan)]/50">
                 <img
-                  src="/ravi-photo.png"
+                  src={SOCIAL_LINKS.avatar}
                   onError={(e) => {
                     e.currentTarget.src = SOCIAL_LINKS.avatar;
                     e.currentTarget.onerror = null;

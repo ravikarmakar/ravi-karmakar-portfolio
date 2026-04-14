@@ -2,7 +2,7 @@ import { type ComponentPropsWithoutRef } from "react"
 
 import { cn } from "@/lib/utils"
 
-interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
+interface MarqueeProps extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
   /**
    * Optional CSS class name to apply custom styles
    */
@@ -18,9 +18,14 @@ interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
    */
   pauseOnHover?: boolean
   /**
+   * Whether to explicitly pause the animation
+   * @default false
+   */
+  pause?: boolean
+  /**
    * Content to be displayed in the marquee
    */
-  children: React.ReactNode
+  children: React.ReactNode | ((index: number) => React.ReactNode)
   /**
    * Whether to animate vertically instead of horizontally
    * @default false
@@ -37,6 +42,7 @@ export function Marquee({
   className,
   reverse = false,
   pauseOnHover = false,
+  pause = false,
   children,
   vertical = false,
   repeat = 4,
@@ -63,10 +69,11 @@ export function Marquee({
               "animate-marquee flex-row": !vertical,
               "animate-marquee-vertical flex-col": vertical,
               "group-hover:[animation-play-state:paused]": pauseOnHover,
+              "[animation-play-state:paused]": pause,
               "[animation-direction:reverse]": reverse,
             })}
           >
-            {children}
+            {typeof children === "function" ? children(i) : children}
           </div>
         ))}
     </div>

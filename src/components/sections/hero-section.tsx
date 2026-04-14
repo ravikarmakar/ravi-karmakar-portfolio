@@ -4,10 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { ChevronDown, Download } from "lucide-react";
-
-const titleLine1 = ["Ravi", "Karmakar"];
-const titleLine2 = ["Full-Stack", "Developer", "&"];
-const titleLine3 = ["System", "Architect."];
+import { SITE_CONFIG, PREMIUM_TRANSITION } from "@/lib/constants";
 
 export function HeroSection() {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -19,7 +16,7 @@ export function HeroSection() {
     
     // Trigger download in current tab (Google drive provides attachment headers)
     const link = document.createElement("a");
-    link.href = "https://drive.google.com/uc?export=download&id=1s6AnGptI9whtdbbo-EA6yjAw80JaC3fy";
+    link.href = `https://drive.google.com/uc?export=download&id=${SITE_CONFIG.cvDriveId}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -37,9 +34,8 @@ export function HeroSection() {
         initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         transition={{
-          duration: 0.6,
+          ...PREMIUM_TRANSITION,
           delay: 0.4 + i * 0.08,
-          ease: [0.25, 0.46, 0.45, 0.94],
         }}
         className={
           isName
@@ -57,7 +53,7 @@ export function HeroSection() {
       id="hero"
       className="mesh-gradient relative flex min-h-screen items-center justify-center overflow-hidden"
     >
-      {/* Floating Orbs */}
+      {/* Floating Orbs omitted for brevity — keeping them exactly as they are */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="animate-float absolute left-[10%] top-[20%] h-72 w-72 rounded-full bg-[var(--glow-cyan)]/[0.04] blur-[100px]" />
         <div className="animate-float-delayed absolute right-[15%] top-[30%] h-96 w-96 rounded-full bg-[var(--glow-violet)]/[0.05] blur-[120px]" />
@@ -94,7 +90,7 @@ export function HeroSection() {
         {/* Title — Staggered word reveal with proper spacing */}
         <h1 className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
           <span className="block">
-            {titleLine1.map((w) => renderWord(w, true))}
+            {SITE_CONFIG.headline.map((w) => renderWord(w, true))}
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -105,10 +101,10 @@ export function HeroSection() {
             </motion.span>
           </span>
           <span className="block">
-            {titleLine2.map((w) => renderWord(w, false))}
+            {SITE_CONFIG.subheadline.slice(0, 3).map((w) => renderWord(w, false))}
           </span>
           <span className="block">
-            {titleLine3.map((w) => renderWord(w, false))}
+            {SITE_CONFIG.subheadline.slice(3).map((w) => renderWord(w, false))}
           </span>
         </h1>
 
@@ -119,7 +115,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="mx-auto mb-10 max-w-2xl text-base text-[var(--text-muted)] sm:text-lg md:text-xl"
         >
-          Building high-concurrency digital infrastructure and{" "}
+          {SITE_CONFIG.bio.split("premium web experiences")[0]}
           <span className="font-medium text-white">premium web experiences</span>.
         </motion.p>
 

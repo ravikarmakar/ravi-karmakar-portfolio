@@ -9,11 +9,9 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.BREVO_API_KEY;
-    const recipient = process.env.NEXT_PUBLIC_RECIPIENT_EMAIL || "ravikarmkar94475@gmail.com";
-    const senderEmail = process.env.SENDER_EMAIL || "ravikarmkar94475@gmail.com";
+    const recipient = process.env.NEXT_PUBLIC_RECIPIENT_EMAIL || "[EMAIL_ADDRESS]";
+    const senderEmail = process.env.SENDER_EMAIL || "[EMAIL_ADDRESS]";
     const senderName = process.env.SENDER_NAME || "Ravi Karmakar Portfolio";
-
-
 
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",

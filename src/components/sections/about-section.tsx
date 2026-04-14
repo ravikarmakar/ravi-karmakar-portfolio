@@ -9,7 +9,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { MagneticSocials } from "@/components/ui/magnetic-socials";
-import { SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS, SITE_CONFIG, PREMIUM_TRANSITION } from "@/lib/constants";
 
 export function AboutSection() {
   const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
@@ -25,21 +25,21 @@ export function AboutSection() {
       <div className="mx-auto w-full max-w-6xl px-6">
         <SectionHeading
           title="About Me"
-          subtitle="Passionate about building scalable systems and crafting premium digital experiences."
+          subtitle={SITE_CONFIG.description}
         />
 
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={PREMIUM_TRANSITION}
           className="relative grid grid-cols-1 gap-12 md:grid-cols-12 md:items-center pt-8"
         >
           {/* Image Column */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ ...PREMIUM_TRANSITION, delay: 0.2 }}
             className="relative mx-auto w-full max-w-sm md:col-span-5 md:max-w-md lg:max-w-sm"
           >
             {/* Glow behind image */}
@@ -48,9 +48,8 @@ export function AboutSection() {
             {/* Simple image container */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <PixelImage
-                src="/ravi-photo.png"
-                fallbackSrc={SOCIAL_LINKS.avatar}
-                alt="Ravi Karmakar — Full-Stack Developer & System Architect"
+                src={SOCIAL_LINKS.avatar}
+                alt={`${SITE_CONFIG.name} ${SITE_CONFIG.lastName} — ${SITE_CONFIG.role}`}
                 grid="6x4"
               />
 
@@ -68,7 +67,7 @@ export function AboutSection() {
                     colorTo="var(--glow-violet)"
                   />
                   <p className="text-xs font-semibold tracking-tight text-[var(--glow-cyan)]">
-                    Full-Stack Developer & System Architect
+                    {SITE_CONFIG.role}
                   </p>
                 </div>
               </div>
@@ -79,13 +78,13 @@ export function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ ...PREMIUM_TRANSITION, delay: 0.3 }}
             className="space-y-6 md:col-span-7"
           >
             <div className="space-y-4">
               <p className="text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
                 I&apos;m{" "}
-                <span className="font-semibold text-white">Ravi Karmakar</span>, a
+                <span className="font-semibold text-white">{SITE_CONFIG.name} {SITE_CONFIG.lastName}</span>, a
                 full-stack developer with a deep focus on building{" "}
                 <Highlighter action="highlight" color="#00f0ff" isView={true}>
                   <span className="font-semibold text-white">high-concurrency systems</span>
@@ -110,10 +109,13 @@ export function AboutSection() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ ...PREMIUM_TRANSITION, delay: 0.5 }}
               className="pt-4"
             >
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Core Tech Stack</p>
+              <div className="flex items-center gap-2 mb-3">
+                 <div className="h-px w-8 bg-white/10" />
+                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Core Tech Stack</p>
+              </div>
               <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl py-4">
                 <Marquee pauseOnHover className="[--duration:25s]">
                   {["Next.js", "TypeScript", "Node.js", "WebSockets", "PostgreSQL", "React", "Docker"].map((skill) => (

@@ -10,34 +10,13 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { EDUCATION, PREMIUM_TRANSITION } from "@/lib/constants";
 import { GraduationCapIcon, CodeIcon } from "lucide-react";
 
-const education = [
-  {
-    degree: "Master of Computer Applications (MCA)",
-    institution: "Brindavan College, Bangalore",
-    period: "2025 — Present",
-    description:
-      "Pursuing postgraduate studies focusing on advanced software engineering, application architecture, and modern scalable system design.",
-    icon: GraduationCapIcon,
-  },
-  {
-    degree: "Full Stack Development Certification",
-    institution: "Apna College, Remote",
-    period: "6 Months Program — 2024",
-    description:
-      "Completed a rigorous 6-month specialized curriculum covering modern web development, backend API creation, database management, and responsive UI frameworks.",
-    icon: CodeIcon,
-  },
-  {
-    degree: "Bachelor of Science in Physics",
-    institution: "B.S.K College, Barharwa",
-    period: "2020 — 2023",
-    description:
-      "Built a strong analytical foundation in mathematical modeling, computational physics, and scientific problem-solving that translates directly into software engineering logic.",
-    icon: GraduationCapIcon,
-  },
-];
+const iconMap = {
+  graduation: GraduationCapIcon,
+  code: CodeIcon,
+};
 
 export function EducationSection() {
   const { ref, isInView } = useScrollReveal();
@@ -59,8 +38,8 @@ export function EducationSection() {
           ref={ref}
           className="relative grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          {education.map((item, i) => {
-            const IconComp = item.icon;
+          {EDUCATION.map((item, i) => {
+            const IconComp = iconMap[item.icon as keyof typeof iconMap];
             return (
               <motion.div
                 key={item.degree}
@@ -71,9 +50,8 @@ export function EducationSection() {
                     : { opacity: 0, y: 40, filter: "blur(8px)" }
                 }
                 transition={{
-                  duration: 0.7,
+                  ...PREMIUM_TRANSITION,
                   delay: i * 0.2,
-                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
                 <Card className="group h-full border-[var(--glass-border)] bg-[var(--glass-bg)] shadow-none backdrop-blur-xl transition-all duration-500 hover:border-[var(--glow-cyan)]/20 hover:shadow-[0_0_40px_rgba(0,240,255,0.06)]">

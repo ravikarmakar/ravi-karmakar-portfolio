@@ -5,35 +5,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 
-const skillGroups = [
-  {
-    category: "Frontend",
-    color: "var(--glow-cyan)",
-    skills: ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Framer Motion"],
-  },
-  {
-    category: "Backend",
-    color: "var(--glow-violet)",
-    skills: ["Node.js", "PostgreSQL", "Redis", "Socket.io", "Prisma", "REST APIs"],
-  },
-  {
-    category: "DevOps & Tools",
-    color: "var(--glow-emerald)",
-    skills: ["Docker", "Git", "Vercel", "Linux", "CI/CD", "Nginx"],
-  },
-  {
-    category: "Architecture",
-    color: "#f59e0b",
-    skills: [
-      "System Design",
-      "Microservices",
-      "Database Design",
-      "API Design",
-      "Caching Strategies",
-      "Real-Time Systems",
-    ],
-  },
-];
+import { SKILL_GROUPS, PREMIUM_TRANSITION } from "@/lib/constants";
 
 export function SkillsSection() {
   const { ref, isInView } = useScrollReveal();
@@ -51,15 +23,14 @@ export function SkillsSection() {
         />
 
         <div ref={ref} className="relative space-y-10">
-          {skillGroups.map((group, groupIdx) => (
+          {SKILL_GROUPS.map((group, groupIdx) => (
             <motion.div
               key={group.category}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{
-                duration: 0.5,
+                ...PREMIUM_TRANSITION,
                 delay: groupIdx * 0.15,
-                ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
               <div className="mb-4 flex items-center gap-3">

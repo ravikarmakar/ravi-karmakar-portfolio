@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Preloader } from "@/components/ui/preloader";
 import { Navbar } from "@/components/navbar";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 const LoadingContext = createContext({ isLoading: true });
 
@@ -33,7 +34,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
         This prevents 'preloaded but not used' warnings during the 2.2s animation.
       */}
       <div className="sr-only opacity-0 pointer-events-none absolute h-0 w-0 overflow-hidden" aria-hidden="true">
-        <img src="/ravi-photo.png" alt="" />
+        <img src={SOCIAL_LINKS.avatar} alt="" />
         <span className="font-sans">Warmup Sans</span>
         <span className="font-mono">Warmup Mono</span>
       </div>
