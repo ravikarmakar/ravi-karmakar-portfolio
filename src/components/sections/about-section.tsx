@@ -2,18 +2,14 @@
 
 import { motion } from "framer-motion";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { NexusIcon } from "@/components/ui/nexus-icon";
 import { Highlighter } from "@/components/ui/highlighter";
 import { Marquee } from "@/components/ui/marquee";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { BorderBeam } from "@/components/ui/border-beam";
-
-const stats = [
-  { label: "Years Experience", value: "3+" },
-  { label: "Projects Delivered", value: "20+" },
-  { label: "Technologies", value: "15+" },
-  { label: "Client Satisfaction", value: "100%" },
-];
+import { MagneticSocials } from "@/components/ui/magnetic-socials";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 export function AboutSection() {
   const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
@@ -53,7 +49,7 @@ export function AboutSection() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <PixelImage
                 src="/ravi-photo.png"
-                fallbackSrc="https://github.com/ravikarmakar.png"
+                fallbackSrc={SOCIAL_LINKS.avatar}
                 alt="Ravi Karmakar — Full-Stack Developer & System Architect"
                 grid="6x4"
               />
@@ -135,28 +131,42 @@ export function AboutSection() {
               </div>
             </motion.div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.7 + index * 0.1,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 backdrop-blur-sm"
-                >
-                  <p className="text-2xl font-bold bg-gradient-to-r from-[var(--glow-cyan)] to-[var(--glow-violet)] bg-clip-text text-transparent">
-                    {stat.value}
-                  </p>
-                  <p className="mt-1 text-xs text-[var(--text-muted)]">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-
+            {/* Social Nexus - Replaces Stats Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="flex flex-col gap-3 pt-4"
+            >
+              <div className="flex items-center gap-2">
+                <div className="h-px w-8 bg-white/10" />
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">Social Appearances</p>
+              </div>
+              <div className="flex justify-start">
+                <MagneticSocials
+                  items={[
+                    {
+                      label: "Github",
+                      icon: "github",
+                      href: SOCIAL_LINKS.github,
+                      color: "var(--glow-cyan)",
+                    },
+                    {
+                      label: "LinkedIn",
+                      icon: "linkedin",
+                      href: SOCIAL_LINKS.linkedin,
+                      color: "var(--glow-violet)",
+                    },
+                    {
+                      label: "X (Twitter)",
+                      icon: "x",
+                      href: SOCIAL_LINKS.twitter,
+                      color: "var(--glow-emerald)",
+                    },
+                  ]}
+                />
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>

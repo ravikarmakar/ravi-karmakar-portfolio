@@ -59,7 +59,7 @@ export function MagneticButton({
           "backdrop-blur-md transition-all duration-300",
           "hover:bg-white/10 hover:border-[var(--glow-cyan)]/40",
           "hover:shadow-[0_0_30px_rgba(0,240,255,0.15)]",
-          "active:scale-95",
+          "active:scale-95 cursor-pointer",
           className
         )}
       >

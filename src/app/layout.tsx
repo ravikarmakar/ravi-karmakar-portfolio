@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LoadingProvider } from "@/components/loading-provider";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
+import { SOCIAL_LINKS, SITE_CONFIG } from "@/lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +24,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ravi-karmakar-portfolio.vercel.app"),
-  title: "Ravi Karmakar — Full-Stack Developer & System Architect",
-  description:
-    "Building high-concurrency digital infrastructure. Portfolio showcasing real-time systems, AI-powered tools, and production-grade web platforms.",
+  title: `${SITE_CONFIG.name} — ${SITE_CONFIG.role}`,
+  description: SITE_CONFIG.description,
   keywords: [
-    "Ravi Karmakar",
+    SITE_CONFIG.name,
     "Full-Stack Developer",
     "System Architect",
     "Next.js",
@@ -34,9 +35,9 @@ export const metadata: Metadata = {
     "TypeScript",
     "Portfolio",
   ],
-  authors: [{ name: "Ravi Karmakar", url: "https://github.com/ravikarmakar" }],
-  creator: "Ravi Karmakar",
-  publisher: "Ravi Karmakar",
+  authors: [{ name: SITE_CONFIG.name, url: SOCIAL_LINKS.github }],
+  creator: SITE_CONFIG.name,
+  publisher: SITE_CONFIG.name,
   formatDetection: {
     email: false,
     address: false,
@@ -89,12 +90,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full overflow-x-hidden antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} dark overflow-x-hidden antialiased`}
     >
-      <body className="relative min-h-full overflow-x-hidden bg-black text-white">
-        <LoadingProvider>
-          {children}
-        </LoadingProvider>
+      <body
+        suppressHydrationWarning
+        className="relative min-h-full overflow-x-hidden bg-black text-white"
+      >
+        <SmoothScroll>
+          <LoadingProvider>
+            {children}
+          </LoadingProvider>
+        </SmoothScroll>
         {/* Noise texture overlay */}
         <div className="noise-overlay" aria-hidden="true" />
       </body>
