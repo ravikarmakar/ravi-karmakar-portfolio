@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
+import { MapPin, Building2 } from "lucide-react";
 
 import { EXPERIENCES, PREMIUM_TRANSITION } from "@/lib/constants";
 
@@ -60,12 +61,26 @@ function TimelineItem({
             {experience.duration}
           </Badge>
         </div>
-        <h3 className="mt-3 text-lg font-semibold text-white">
-          {experience.role}
-        </h3>
-        <p className="text-sm font-medium text-[var(--glow-cyan)]/80">
-          @ {experience.company}
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="mt-3 text-lg font-semibold text-white">
+              {experience.role}
+            </h3>
+            <div className="flex items-center gap-2 text-sm font-medium text-[var(--glow-cyan)]/80">
+              <Building2 className="h-3.5 w-3.5" />
+              <span>{experience.company}</span>
+            </div>
+          </div>
+          <div className="mt-3 hidden h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 sm:flex">
+             <Building2 className="h-5 w-5 text-white/20" />
+          </div>
+        </div>
+        {"location" in experience && (
+          <div className="mt-2 flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+            <MapPin className="h-3 w-3" />
+            <span>{experience.location}</span>
+          </div>
+        )}
         <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
           {experience.description}
         </p>

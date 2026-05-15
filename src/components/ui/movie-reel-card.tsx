@@ -2,6 +2,9 @@ import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { getGoogleDriveDirectLink } from "@/lib/constants";
+import Image from "next/image";
+
+const MotionImage = motion(Image);
 
 interface MovieReelCardProps {
   cert: {
@@ -76,15 +79,17 @@ export const MovieReelCard = memo(function MovieReelCard({ cert, onClick, classN
 
         {/* Image Content */}
         <div className="relative w-full h-full overflow-hidden flex items-center justify-center p-2">
-          <motion.img
+          <MotionImage
             layoutId={`cert-img-${prefix}`}
             src={getCertificateImage()}
             alt={cert.name}
+            fill
             transition={reelTransition}
             className={cn(
               "w-full h-full transition-all duration-500",
               isExpanded ? "object-contain opacity-100" : "object-cover opacity-80"
             )}
+            unoptimized
           />
           <div className={cn(
             "absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent",

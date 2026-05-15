@@ -309,3 +309,26 @@ body {
   background: rgba(0, 240, 255, 0.2);
   color: #ffffff;
 }
+
+/* ─── Holographic Card Effects ─── */
+@keyframes borderSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animated gradient border wrapper — scale up slightly so the
+   gradient peeks around the inner card's rounded corners */
+.holographic-border {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    var(--glow-cyan),
+    var(--glow-violet),
+    var(--glow-emerald),
+    var(--glow-cyan)
+  );
+  animation: borderSpin 4s linear infinite;
+}

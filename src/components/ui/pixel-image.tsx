@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
@@ -123,10 +124,10 @@ export const PixelImage = ({
             transitionDuration: `${pixelFadeInDuration}ms`,
           }}
         >
-          <img
+          <Image
             src={currentSrc}
-            onError={() => setImgError(true)}
             alt={alt}
+            fill
             title={title}
             className={cn(
               "z-1 h-full w-full object-cover rounded-2xl",
@@ -138,6 +139,7 @@ export const PixelImage = ({
                 : "none",
             }}
             draggable={false}
+            unoptimized
           />
         </div>
       ))}

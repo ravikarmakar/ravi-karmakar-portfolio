@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { CoolMode } from "@/components/ui/cool-mode";
-import { SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS, getGoogleDriveDirectLink, SITE_CONFIG } from "@/lib/constants";
+import { FileText, Download, ChevronDown } from "lucide-react";
 
 export function Navbar() {
   const [hidden, setHidden] = useState(false);
@@ -14,7 +16,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>("#about");
-  const [mounted, setMounted] = useState(false);
+  const [showResumeDropdown, setShowResumeDropdown] = useState(false);
 
   const navLinks = useMemo(() => [
     { label: "About", href: "#about" },
@@ -63,13 +65,10 @@ export function Navbar() {
     lastScrollY.current = latest;
   });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+
 
   // Intersection Observer to track active section
   useEffect(() => {
-    if (!mounted) return;
 
     const observerOptions = {
       root: null,
@@ -99,7 +98,7 @@ export function Navbar() {
     });
 
     return () => observer.disconnect();
-  }, [mounted]);
+  }, []);
 
   const scrollTo = useCallback((href: string) => {
     setMobileOpen(false);
@@ -125,22 +124,20 @@ export function Navbar() {
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Branding / Avatar */}
-          <CoolMode options={{ particle: SOCIAL_LINKS.avatar }}>
+          <CoolMode options={{ particle: getGoogleDriveDirectLink(SOCIAL_LINKS.avatar) }}>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="group relative flex items-center justify-center cursor-pointer"
             >
               <div className="absolute inset-0 rounded-full bg-[var(--glow-cyan)] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40" />
               <div className="relative h-10 w-10 overflow-hidden rounded-full border border-white/10 transition-transform duration-300 group-hover:scale-105 group-hover:border-[var(--glow-cyan)]/50">
-                <img
-                  src={SOCIAL_LINKS.avatar}
-                  onError={(e) => {
-                    e.currentTarget.src = SOCIAL_LINKS.avatar;
-                    e.currentTarget.onerror = null;
-                  }}
+                <Image
+                  src={getGoogleDriveDirectLink(SOCIAL_LINKS.avatar)}
                   alt="Ravi Karmakar"
-                  className="h-full w-full object-cover"
+                  fill
+                  className="object-cover"
                   draggable={false}
+                  unoptimized // Since we use a custom Drive proxy API, we skip Next.js's additional processing to avoid double-optimization
                 />
               </div>
             </button>
@@ -175,30 +172,77 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <MagneticButton
-              onClick={() => scrollTo("#contact")}
-              className="!px-6 !py-2.5 !text-xs !bg-white/5 hover:!bg-white/10 !border-white/10"
+          {/* Desktop CTA, Resume & Mobile Menu Group */}
+          <div className="flex items-center gap-3">
+            {/* Resume Button (Permanent) */}
+            <div 
+              className="group relative"
+              onMouseEnter={() => setShowResumeDropdown(true)}
+              onMouseLeave={() => setShowResumeDropdown(false)}
             >
-              Let&apos;s Talk
-            </MagneticButton>
-          </div>
+              <MagneticButton
+                onClick={() => setShowResumeDropdown(!showResumeDropdown)}
+                className="!px-4 !py-2.5 !text-[10px] !bg-white/5 hover:!bg-white/10 !border-white/10 flex items-center gap-2"
+              >
+                <FileText size={12} className="text-[var(--glow-cyan)]" />
+                <span className="inline">Resume</span>
+                <ChevronDown size={10} className={cn("opacity-50 transition-transform duration-300", showResumeDropdown && "rotate-180")} />
+              </MagneticButton>
+              
+              <div className={cn(
+                "absolute right-0 top-full mt-2 w-40 origin-top-right transition-all duration-300",
+                showResumeDropdown 
+                  ? "scale-100 opacity-100 pointer-events-auto" 
+                  : "scale-95 opacity-0 pointer-events-none"
+              )}>
+                <div className="rounded-xl border border-white/10 bg-black/90 p-1.5 backdrop-blur-xl">
+                  <a
+                    href={`https://drive.google.com/file/d/${SITE_CONFIG.cvDriveId}/view`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowResumeDropdown(false)}
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-[11px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <FileText size={14} />
+                    <span>View Resume</span>
+                  </a>
+                  <a
+                    href={`https://drive.google.com/uc?export=download&id=${SITE_CONFIG.cvDriveId}`}
+                    onClick={() => setShowResumeDropdown(false)}
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-[11px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <Download size={14} />
+                    <span>Download</span>
+                  </a>
+                </div>
+              </div>
+            </div>
 
-          {/* Mobile hamburger — now inside header to slide with it */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-[10001] flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 md:hidden cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            <div className={cn("h-px w-5 bg-white transition-all duration-300", mobileOpen && "rotate-45 translate-y-[5px]")} />
-            <div className={cn("h-px w-5 bg-white transition-all duration-300", mobileOpen && "-rotate-45 -translate-y-[5px]")} />
-          </button>
+            {/* Let's Talk (Desktop Only) */}
+            <div className="hidden md:block">
+              <MagneticButton
+                onClick={() => scrollTo("#contact")}
+                className="!px-6 !py-2.5 !text-xs !bg-white !text-black hover:!bg-white/90 !border-transparent"
+              >
+                Let&apos;s Talk
+              </MagneticButton>
+            </div>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="relative z-[10001] flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 md:hidden cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              <div className={cn("h-px w-5 bg-white transition-all duration-300", mobileOpen && "rotate-45 translate-y-[5px]")} />
+              <div className={cn("h-px w-5 bg-white transition-all duration-300", mobileOpen && "-rotate-45 -translate-y-[5px]")} />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
       {/* Mobile Menu Portal */}
-      {mounted && createPortal(
+      {createPortal(
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
@@ -241,8 +285,25 @@ export function Navbar() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ delay: 0.5 }}
-                  className="mt-8"
+                  className="mt-8 flex flex-col items-center gap-4"
                 >
+                  <div className="flex items-center gap-4">
+                    <a
+                      href={`https://drive.google.com/file/d/${SITE_CONFIG.cvDriveId}/view`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white"
+                    >
+                      <FileText size={16} />
+                      View CV
+                    </a>
+                    <a
+                      href={`https://drive.google.com/uc?export=download&id=${SITE_CONFIG.cvDriveId}`}
+                      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70"
+                    >
+                      <Download size={18} />
+                    </a>
+                  </div>
                   <MagneticButton onClick={() => scrollTo("#contact")} className="!px-12 !py-4 !text-base">
                     Get in Touch
                   </MagneticButton>

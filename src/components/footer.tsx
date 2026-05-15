@@ -2,22 +2,19 @@
 
 import { useState, useEffect, useRef, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { 
-  ArrowUp, 
-  Cpu, 
-  Globe, 
-  Zap,
-  Activity
+import {
+  ArrowUp,
+  FileText,
+  Download
 } from "lucide-react";
 import { NexusIcon } from "@/components/ui/nexus-icon";
-import { cn } from "@/lib/utils";
-import { SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS, SITE_CONFIG } from "@/lib/constants";
 
 // --- Sub-components ---
 
 const SystemMonitor = memo(function SystemMonitor() {
   const [time, setTime] = useState("");
-  
+
   useEffect(() => {
     const updateTime = () => {
       setTime(new Date().toLocaleTimeString("en-IN", {
@@ -53,10 +50,7 @@ const SystemMonitor = memo(function SystemMonitor() {
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: footerRef,
-    offset: ["start end", "end end"]
-  });
+  const { scrollYProgress } = useScroll();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -65,12 +59,12 @@ export function Footer() {
   const textY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
-    <footer 
+    <footer
       ref={footerRef}
       className="relative mt-20 overflow-hidden bg-black border-t border-white/5"
     >
       {/* Subtle Background Text */}
-      <motion.div 
+      <motion.div
         style={{ y: textY }}
         className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03]"
       >
@@ -85,10 +79,10 @@ export function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <h3 className="mb-4 text-xl font-bold tracking-tighter text-white uppercase">Nexus Core</h3>
             <p className="max-w-xs text-sm leading-relaxed text-[var(--text-muted)]">
-              Surgical precision in digital infrastructure. 
+              Surgical precision in digital infrastructure.
               Building the next generation of web experience.
             </p>
-            
+
             <div className="mt-8 flex items-center gap-4">
               {[
                 { name: "github" as const, href: SOCIAL_LINKS.github },
@@ -114,11 +108,29 @@ export function Footer() {
             <a href="#about" className="hover:text-white transition-colors">About</a>
             <a href="#projects" className="hover:text-white transition-colors">Projects</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+            <div className="mt-2 flex flex-col gap-2">
+              <a
+                href={`https://drive.google.com/file/d/${SITE_CONFIG.cvDriveId}/view`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[var(--glow-cyan)]/80 hover:text-[var(--glow-cyan)] transition-colors"
+              >
+                <FileText size={14} />
+                <span>View Resume</span>
+              </a>
+              <a
+                href={`https://drive.google.com/uc?export=download&id=${SITE_CONFIG.cvDriveId}`}
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
+                <Download size={14} />
+                <span>Download PDF</span>
+              </a>
+            </div>
           </div>
 
           {/* Action */}
           <div className="flex flex-col items-start lg:items-end">
-            <button 
+            <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-70"
             >

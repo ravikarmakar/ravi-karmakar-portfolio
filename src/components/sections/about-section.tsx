@@ -9,7 +9,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { MagneticSocials } from "@/components/ui/magnetic-socials";
-import { SOCIAL_LINKS, SITE_CONFIG, PREMIUM_TRANSITION } from "@/lib/constants";
+import { SOCIAL_LINKS, SITE_CONFIG, PREMIUM_TRANSITION, getGoogleDriveDirectLink } from "@/lib/constants";
 
 export function AboutSection() {
   const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
@@ -48,7 +48,7 @@ export function AboutSection() {
             {/* Simple image container */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <PixelImage
-                src={SOCIAL_LINKS.avatar}
+                src={getGoogleDriveDirectLink(SOCIAL_LINKS.avatar)}
                 alt={`${SITE_CONFIG.name} ${SITE_CONFIG.lastName} — ${SITE_CONFIG.role}`}
                 grid="6x4"
               />
